@@ -65,7 +65,7 @@ resource null_resource create_yaml {
   }
 }
 
-resource null_resource setup_crd_gitops {
+resource null_resource setup_gitops {
   depends_on = [null_resource.create_yaml]
 
   triggers = {
