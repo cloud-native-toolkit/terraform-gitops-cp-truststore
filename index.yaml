@@ -1,0 +1,8 @@
+name: gitops-cp-truststore
+type: gitops
+description: Module to populate a gitops repo with the resources to provision cp-truststore
+tags:
+  - tools
+  - gitops
+versions: []
+id: github.com/cloud-native-toolkit/terraform-gitops-cp-truststore
