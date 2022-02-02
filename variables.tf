@@ -79,3 +79,9 @@ variable "server_name" {
   description = "The name of the server"
   default     = "default"
 }
+
+variable "entitlement_key" {
+  type        = string
+  description = "The entitlement key required to access Cloud Pak images"
+  sensitive   = true
+}

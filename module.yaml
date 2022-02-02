@@ -39,3 +39,7 @@ versions:
         moduleRef:
           id: gitops
           output: sealed_secrets_cert
+      - name: entitlement_key
+        moduleRef:
+          id: catalogs
+          output: entitlement_key
