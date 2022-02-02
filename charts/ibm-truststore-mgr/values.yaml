@@ -1,0 +1,20 @@
+# Default values for truststoremgr.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+nameOverride: ""
+fullnameOverride: ""
+
+imagePullSecrets:
+  - name: ibm-entitlement
+
+image:
+  repository: "icr.io/cpopen/ibm-truststore-mgr"
+  tag: ""
+
+serviceAccount:
+  name: "ibm-truststore-mgr"
+  create: false
+
+roleName: ""
+roleBindingName: ""

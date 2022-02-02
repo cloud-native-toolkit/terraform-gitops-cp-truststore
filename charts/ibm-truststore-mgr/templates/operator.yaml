@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ibm-truststore-mgr-operator
+  labels:
+  {{ include "truststoremgr.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{ include "truststoremgr.selectorLabels" . | nindent 6 }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        {{ include "truststoremgr.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "truststoremgr.serviceAccountName" . }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: manager
+          image:  "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: Always
+          env:
+            - name: WATCH_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
+            requests:
+              cpu: 300m
+              memory: 512Mi
+      terminationGracePeriodSeconds: 10
