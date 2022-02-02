@@ -1,9 +1,11 @@
 locals {
-  crd_name      = "truststore-crd"
-  name          = "truststore"
+  crd_name      = "ibm-truststore-mgr-crds"
+  name          = "ibm-truststore-mgr"
   bin_dir       = module.setup_clis.bin_dir
-  crd_yaml_dir  = "${path.cwd}/.tmp/${local.crd_name}/chart/${local.name}"
-  yaml_dir      = "${path.cwd}/.tmp/${local.name}/chart/${local.name}"
+  crd_chart_dir = "${path.module}/charts/${local.crd_name}"
+  crd_yaml_dir  = "${path.cwd}/.tmp/${local.name}/charts/${local.crd_name}"
+  chart_dir     = "${path.module}/charts/${local.name}"
+  yaml_dir      = "${path.cwd}/.tmp/${local.name}/charts/${local.name}"
   crd_layer = "infrastructure"
   layer = "services"
   type  = "base"
@@ -18,7 +20,7 @@ module setup_clis {
 
 resource null_resource create_crd_yaml {
   provisioner "local-exec" {
-    command = "${path.module}/scripts/create-yaml.sh '${local.crd_name}' '${path.module}/charts/ibm-truststore-mgr-crds' '${local.crd_yaml_dir}'"
+    command = "${path.module}/scripts/create-yaml.sh '${local.crd_name}' '${local.crd_chart_dir}' '${local.crd_yaml_dir}'"
   }
 }
 
@@ -61,7 +63,7 @@ resource null_resource create_yaml {
   depends_on = [null_resource.setup_crd_gitops]
 
   provisioner "local-exec" {
-    command = "${path.module}/scripts/create-yaml.sh '${local.name}' '${path.module}/charts/ibm-truststore-mgr' '${local.yaml_dir}'"
+    command = "${path.module}/scripts/create-yaml.sh '${local.name}' '${local.chart_dir}' '${local.yaml_dir}'"
   }
 }
 
